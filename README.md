@@ -1,17 +1,20 @@
 # pharm_exporter
 
-Имеется target_list.yml файл со списком урл.
-
+Имеется target_list.yml файл со списком url.
+```
 - targets:
   - https://0007-target.ru/target0007/hs/exch_pharmacies/ping
   - https://0014-target.ru/target0014/hs/exch_pharmacies/ping
   - https://0009-target.ru/target0009/hs/exch_pharmacies/ping
+```
 
-Если выполнить curl  -u USER:PASSWORD https://0007-target.ru/target0007/hs/exch_pharmacies/ping 
-
+Если выполнить 
+```
+curl  -u USER:PASSWORD https://0007-target.ru/target0007/hs/exch_pharmacies/ping 
+```
 
 Получим  json вида
-
+```
 {
 
 "status": "Connected",
@@ -76,17 +79,18 @@
 
 ]
 
+```
 
 Программа будет обходить все адреса из target_list.yml и для каждого получать json, из которого дальше будет извлекать имя метрики и её значение. к примеру  "name": "Чек.РМК",
 "value": 11.05083809
 
 А потом это всё оформлять как метрики для Prometheus.
 
-# Как это работает:
+## Как это работает:
 Загрузка целей: Программа читает список URL-адресов из YAML-файла (target_list.yml).
 
-# Сбор метрик: 
-Для каждого URL:
+## Сбор метрик: 
+### Для каждого URL:
 
 Извлекает идентификатор аптеки из URL
 
@@ -94,7 +98,7 @@
 
 Обрабатывает ответ
 
-# Обработка данных:
+## Обработка данных:
 
 Для каждой метрики в JSON-ответе создается соответствующая метрика Prometheus
 
@@ -102,7 +106,7 @@
 
 Добавляются лейблы: pharmacy_id и metric_name
 
-# Экспорт метрик:
+## Экспорт метрик:
 
 pharmacy_metric: основная метрика со значениями
 
@@ -110,32 +114,40 @@ pharmacy_up: статус доступности API (1 = доступно, 0 = 
 
 Периодичность: Данные обновляются каждые 30 секунд
 
-# Требования:
+## Требования:
 1. Установить необходимые зависимости:
 
+```
 pip install pyyaml requests prometheus_client
+```
 
 2. Создайте файл target_list.yml в том же каталоге с содержимым:
 
+```
 targets:
   - https://0007-target.ru/target0007/hs/exch_pharmacies/ping
   - https://0014-target.int.eapteka.ru/target0014/hs/exch_pharmacies/ping
   - и т.д.
+```
 
-# Использование:
+## Использование:
 1. Запустите скрипт:
 
+```
 python pharmacy_exporter.py
+```
 
 2. Настройте джобу Prometheus для сбора метрик с этого экспортера:
 
+```
 scrape_configs:
   - job_name: 'pharmacy_metrics'
     static_configs:
       - targets: ['localhost:8008']
+```
 
-# Пример получаемых метрик в Prometheus:
-
+## Пример получаемых метрик в Prometheus:
+```
 \# HELP pharmacy_metric Metric from pharmacy API
 
 \# TYPE pharmacy_metric gauge
@@ -155,7 +167,7 @@ pharmacy_metric{metric_name="Обработка.ПриемкаУпакованн
 pharmacy_up{pharmacy_id="0007"} 1
 
 pharmacy_up{pharmacy_id="0014"} 0
-
+```
 
 
 
