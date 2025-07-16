@@ -1,0 +1,3 @@
+pyyaml
+requests
+prometheus_client
