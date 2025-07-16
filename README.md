@@ -1,4 +1,4 @@
-# pharm_exporter
+# pharmacy_exporter
 
 Имеется target_list.yml файл со списком url.
 ```
