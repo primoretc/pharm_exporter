@@ -1,0 +1,20 @@
+1. Создайте структуру файлов:
+
+pharmacy-exporter/
+├── Dockerfile
+├── requirements.txt
+├── pharmacy_metrics.py
+└── apo_list.yml
+
+2. Соберите Docker-образ:
+
+docker build -t pharmacy-exporter:latest .
+
+3. Запустите контейнер:
+
+docker run -d \
+  -p 8008:8008 \
+  -v $(pwd)/target_list.yml:/target/target_list.yml \
+  --name pharmacy-exporter \
+  pharmacy-exporter:latest
+
