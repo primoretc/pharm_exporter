@@ -19,3 +19,12 @@ docker run -d \
   --name pharmacy-exporter \
   pharmacy-exporter:latest
 
+
+
+4. При локальном запуске минуя Docker 
+\# Для Linux/macOS
+SCRAPE_INTERVAL=15 python pharmacy_metrics.py
+
+\# Для Windows PowerShell
+$env:SCRAPE_INTERVAL = 15
+python pharmacy_metrics.py
