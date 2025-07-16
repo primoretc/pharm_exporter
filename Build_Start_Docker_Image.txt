@@ -14,6 +14,7 @@ docker build -t pharmacy-exporter:latest .
 
 docker run -d \
   -p 8008:8008 \
+  -e SCRAPE_INTERVAL=60 \  # Установить интервал 60 секунд
   -v $(pwd)/target_list.yml:/target/target_list.yml \
   --name pharmacy-exporter \
   pharmacy-exporter:latest
